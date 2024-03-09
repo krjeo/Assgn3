@@ -123,25 +123,17 @@ footer {
     height: auto;
 }
 
-/* Form Fields */
-.login-page label {
+/* Form Field Styles */
+form label {
     display: block;
-    text-align: left; 
-    margin: 10px 0; 
+    margin: 10px;
 }
 
-.login-page input[type="text"],
-.login-page input[type="password"] {
+form input {
     background-color: #fff;
     padding: 10px;
-    margin: 10px 0; 
+    margin: 10px;
     border-radius: 5px;
-    width: 30%; 
-}
-
-.login-page input[type="text"]::placeholder,
-.login-page input[type="password"]::placeholder {
-    color: #999;
 }
 
 /* Button Container */
@@ -151,32 +143,31 @@ footer {
     width: 100%;
 }
 
-/* Login Button */
-.login-page button {
+/* Login Button Styles */
+.login-btn {
     background-color: #4CAF50;
     color: white;
-    padding: 10px 20px;
-    margin: 10px 0; 
+    padding: 10px;
     border: none;
     border-radius: 5px;
+    margin: 10px;
     cursor: pointer;
-    opacity: 0.5;
-    transition: background-color 0.3s, opacity 0.3s;
+    opacity: .5
 }
 
-.login-page button:hover {
+.login-btn:hover {
     background-color: #45A049;
-    opacity: 1;
+    opacity: 1.0
 }
 
 /* Signup Link */
-.login-page a {
+.signup-link {
     color: #007BFF;
     text-decoration: none;
-    margin: 10px 0; 
+    margin: 10px;
 }
 
-.login-page a:hover {
+.signup-link:hover {
     text-decoration: underline;
 }
 
@@ -228,6 +219,12 @@ footer {
 
 .cart-button:hover {
     background-color: #45A049;
+}
+
+#cart {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 @media (max-width: 768px) {
