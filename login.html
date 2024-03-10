@@ -1,13 +1,3 @@
-<!--
-=========================================================
-Name : login.html
-Assignment : Assignment 3
-Author(s) : Jeonghyun Kim UCID: 30239102, Kosy Onyejemezi UCID: 30189156
-Submission : February 26, 2023
-Description : Login of an e-commerce website.
-=========================================================
--->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,6 +9,27 @@ Description : Login of an e-commerce website.
     <meta name="author" content="Kim, Caue">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
     <link rel="stylesheet" type="text/css" href="styles.css">
+    <style>
+        /* Add your CSS styles for the message box here */
+        #messageBox {
+            border: 2px solid;
+            background-color: #f9f9f9;
+            padding: 10px;
+            margin: 20px;
+        }
+
+        #messageBox p {
+            margin: 0;
+        }
+
+        .error {
+            color: red;
+        }
+
+        .success {
+            color: green;
+        }
+    </style>
 </head>
 
 <body>
@@ -26,7 +37,7 @@ Description : Login of an e-commerce website.
         <img src="favicon.ico" alt="Logo">
         <h1 class="company-name">Pat-Da-Pet!</h1>
     </header>
-    
+
     <div class="navigation">
         <a href="index.html">Home</a>
         <a href="products.html">Products</a>
@@ -36,22 +47,89 @@ Description : Login of an e-commerce website.
 
     <main>
         <section class="login-page">
-            <form action="#" method="post">
+            <form id="loginForm" method="post">
                 <label for="username">Username</label>
                 <input type="text" placeholder="Enter Username" name="username" required>
-        
+
                 <label for="password">Password</label>
                 <input type="password" placeholder="Enter Password" name="password" required>
-        
-                <button type="submit" class="login-btn">Login</button>
+
+                <button type="button" class="login-btn" onclick="login()">Login</button>
                 <p>Don't have an account? <a href="signup.html" class="signup-link">Sign up here</a></p>
             </form>
+
+            <!-- Message Box Container -->
         </section>
-    </main>    
+    </main>
 </body>
 
 <footer>
     <p>Copyright ⓒ 2024 JeongHyun Kim, Kosy Onyejemezi</p>
 </footer>
+
+<script>
+    function login() {
+        // Get username and password from the form
+        const username = document.getElementsByName("username")[0].value;
+        const password = document.getElementsByName("password")[0].value;
+
+        // Make API call to fetch user data
+        fetch('https://jsonplaceholder.typicode.com/users')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! Status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(userData => {
+                // Extract "name" and "email" properties from each user object
+                const userCredentials = userData.map(user => ({
+                    name: user.name,
+                    email: user.email,
+                }));
+
+                // Validate user input against extracted data
+                const userMatch = userCredentials.find(user => user.name === username && user.email === password);
+
+                // Display dynamic message box
+                displayMessage(userMatch);
+            })
+            .catch(error => {
+                // Display error message if API call is unsuccessful
+                displayMessage(null, error.message);
+            });
+    }
+
+    function displayMessage(userMatch, errorMessage) {
+        // Remove any exiting message box
+        const existingMessageBox = document.getElementById('messageBox');
+            if (existingMessageBox) {
+                existingMessageBox.parentNode.removeChild(existingMessageBox);
+            }
+        
+        // Create new message box and paragraph
+        const messageBox = document.createElement("div")
+        messageBox.id = "messageBox"
+        const messageParagraph = document.createElement("p")
+        const loginSection = document.querySelector('section');
+        loginSection.appendChild(messageBox);
+
+        // Clear previous message
+        messageBox.innerHTML = '';
+
+        if (userMatch) {
+            // Display success message
+            messageParagraph.textContent = 'Login successful!';
+            messageParagraph.className = 'success';
+        } else {
+            // Display error message
+            messageParagraph.textContent = errorMessage || 'Invalid username or useremail. Please try again.';
+            messageParagraph.className = 'error';
+        }
+
+        // Append the new message to the message box
+        messageBox.appendChild(messageParagraph);
+    }
+</script>
 
 </html>
